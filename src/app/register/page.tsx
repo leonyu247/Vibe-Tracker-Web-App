@@ -32,8 +32,17 @@ export default function RegisterPage() {
     try {
       await signUp(email, password);
       router.push("/");
-    } catch {
-      setError("Could not create account. The email may already be in use.");
+    } catch (err: unknown) {
+      const code = (err as { code?: string })?.code;
+      if (code === "auth/email-already-in-use") {
+        setError("This email is already registered. Please sign in or use a different email.");
+      } else if (code === "auth/invalid-email") {
+        setError("The email address is not valid.");
+      } else if (code === "auth/weak-password") {
+        setError("Password is too weak. Please use at least 6 characters.");
+      } else {
+        setError("Could not create account. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
