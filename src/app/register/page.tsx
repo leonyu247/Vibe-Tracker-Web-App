@@ -33,6 +33,7 @@ export default function RegisterPage() {
       await signUp(email, password);
       router.push("/");
     } catch (err: unknown) {
+      console.error("Registration error:", err);
       const code = (err as { code?: string })?.code;
       if (code === "auth/email-already-in-use") {
         setError("This email is already registered. Please sign in or use a different email.");
