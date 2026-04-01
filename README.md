@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎯 Vibe Tracker
 
-## Getting Started
+Track 10 weekends of vibe coding projects. Features: completion checkboxes, notes, manual time tracking, progress bar, "suggest next weekend" logic, multi-user auth, and PWA mobile support.
 
-First, run the development server:
+## Tech Stack
+
+- **Next.js 16** (React, TypeScript, App Router)
+- **Firebase** (Auth + Firestore)
+- **Tailwind CSS**
+- **PWA** (Service Worker, Manifest)
+- **Vercel** (Deployment)
+
+## Setup
+
+### 1. Firebase Project
+
+1. Go to [Firebase Console](https://console.firebase.google.com)
+2. Create a new project (or use an existing one)
+3. **Enable Authentication:**
+   - Go to Authentication → Sign-in method
+   - Enable **Email/Password** provider
+4. **Create Firestore Database:**
+   - Go to Firestore Database → Create database
+   - Start in **production mode**
+   - Add this security rule:
+     ```
+     rules_version = '2';
+     service cloud.firestore {
+       match /databases/{database}/documents {
+         match /users/{userId} {
+           allow read, write: if request.auth != null && request.auth.uid == userId;
+         }
+       }
+     }
+     ```
+5. **Get your config:**
+   - Go to Project Settings → General → Your apps → Add web app
+   - Copy the `firebaseConfig` values
+
+### 2. Environment Variables
+
+Copy `.env.local.example` to `.env.local` and fill in your Firebase values:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.local.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Local Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+### 4. Deploy to Vercel
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npx vercel --prod
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Or connect the GitHub repo to [Vercel](https://vercel.com) and set the environment variables in the Vercel dashboard.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Features
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ✅ 10 fixed weekends with completion checkboxes
+- 📝 Notes field per weekend
+- ⏱️ Manual time tracking (hours)
+- 📊 Progress bar with stats
+- ✨ "Suggest next weekend" logic
+- 🔐 Multi-user authentication (email/password)
+- 📱 PWA — installable on mobile
+- ☁️ Cloud sync via Firestore
