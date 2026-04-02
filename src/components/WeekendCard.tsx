@@ -14,23 +14,29 @@ export default function WeekendCard({
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(weekend.title);
+  const [description, setDescription] = useState(weekend.description ?? "");
   const [notes, setNotes] = useState(weekend.notes);
   const [timeSpent, setTimeSpent] = useState(weekend.timeSpent.toString());
+  const [extraInfo, setExtraInfo] = useState(weekend.extraInfo ?? "");
 
   const handleSave = () => {
     const parsedTime = parseFloat(timeSpent);
     onUpdate(weekend.id, {
       title,
+      description,
       notes,
       timeSpent: isNaN(parsedTime) || parsedTime < 0 ? 0 : parsedTime,
+      extraInfo,
     });
     setIsEditing(false);
   };
 
   const handleCancel = () => {
     setTitle(weekend.title);
+    setDescription(weekend.description ?? "");
     setNotes(weekend.notes);
     setTimeSpent(weekend.timeSpent.toString());
+    setExtraInfo(weekend.extraInfo ?? "");
     setIsEditing(false);
   };
 
@@ -78,20 +84,46 @@ export default function WeekendCard({
 
             {isEditing ? (
               <div className="space-y-3 mt-2">
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300"
-                  placeholder="Project title"
-                />
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  rows={3}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300 resize-none"
-                  placeholder="Notes about this weekend project..."
-                />
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Activity Name</label>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300"
+                    placeholder="Activity name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Description</label>
+                  <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300"
+                    placeholder="Short description / deliverable"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Notes</label>
+                  <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    rows={3}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300 resize-none"
+                    placeholder="Notes about this weekend project..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Extra Info</label>
+                  <textarea
+                    value={extraInfo}
+                    onChange={(e) => setExtraInfo(e.target.value)}
+                    rows={2}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300 resize-none"
+                    placeholder="Links, resources, additional context..."
+                  />
+                </div>
                 <div className="flex items-center gap-2">
                   <label className="text-sm text-gray-500">Time spent:</label>
                   <input
@@ -128,10 +160,14 @@ export default function WeekendCard({
                 >
                   {weekend.title}
                 </h3>
+                {weekend.description && (
+                  <p className="text-sm text-indigo-500 mt-0.5">{weekend.description}</p>
+                )}
                 {weekend.notes && (
-                  <p className="text-sm text-gray-500 mt-1 line-clamp-2">
-                    {weekend.notes}
-                  </p>
+                  <p className="text-sm text-gray-500 mt-1 line-clamp-2">{weekend.notes}</p>
+                )}
+                {weekend.extraInfo && (
+                  <p className="text-xs text-gray-400 mt-1 line-clamp-2 italic">{weekend.extraInfo}</p>
                 )}
                 <div className="flex items-center gap-4 mt-2">
                   {weekend.timeSpent > 0 && (
