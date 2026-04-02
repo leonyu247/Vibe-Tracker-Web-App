@@ -3,6 +3,7 @@
 Track 10 weekends of vibe coding projects. Features: completion checkboxes, notes, manual time tracking, progress bar, "suggest next weekend" logic, multi-user auth, and PWA mobile support.
 
 Weekend Projects instructions can be found at: https://aidbnewyear.com/join
+
 Vibe Tracker Vercel Link: https://vibe-tracker-brown.vercel.app/
 
 ## Tech Stack
