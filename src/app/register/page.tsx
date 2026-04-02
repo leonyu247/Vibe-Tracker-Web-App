@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function RegisterPage() {
-  console.log("RegisterPage mounted");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,7 +16,6 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Register form submitted");
     setError("");
 
     if (password !== confirmPassword) {
@@ -35,7 +33,6 @@ export default function RegisterPage() {
       await signUp(email, password);
       router.push("/");
     } catch (err: unknown) {
-      console.error("Registration error:", err);
       const code = (err as { code?: string })?.code;
       if (code === "auth/email-already-in-use") {
         setError("This email is already registered. Please sign in or use a different email.");

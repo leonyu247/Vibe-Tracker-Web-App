@@ -1,4 +1,4 @@
-const CACHE_NAME = "vibe-tracker-v1";
+const CACHE_NAME = "vibe-tracker-v2";
 const OFFLINE_URLS = ["/", "/login", "/register"];
 
 self.addEventListener("install", (event) => {
@@ -21,6 +21,7 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+  if (!event.request.url.startsWith("http")) return;
 
   event.respondWith(
     fetch(event.request)
