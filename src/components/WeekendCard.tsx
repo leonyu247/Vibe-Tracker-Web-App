@@ -152,35 +152,50 @@ export default function WeekendCard({
                 </div>
               </div>
             ) : (
-              <div>
-                <h3
-                  className={`font-semibold text-gray-800 ${
-                    weekend.completed ? "line-through text-gray-400" : ""
-                  }`}
-                >
-                  {weekend.title}
-                </h3>
-                {weekend.description && (
-                  <p className="text-sm text-indigo-500 mt-0.5">{weekend.description}</p>
-                )}
-                {weekend.notes && (
-                  <p className="text-sm text-gray-500 mt-1 line-clamp-2">{weekend.notes}</p>
-                )}
-                {weekend.extraInfo && (
-                  <p className="text-xs text-gray-400 mt-1 line-clamp-2 italic">{weekend.extraInfo}</p>
-                )}
-                <div className="flex items-center gap-4 mt-2">
-                  {weekend.timeSpent > 0 && (
-                    <span className="text-xs text-gray-400">
-                      ⏱️ {weekend.timeSpent}h logged
-                    </span>
-                  )}
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="text-xs text-violet-500 hover:text-violet-700 font-medium transition-colors"
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <h3
+                    className={`font-semibold text-gray-800 ${
+                      weekend.completed ? "line-through text-gray-400" : ""
+                    }`}
                   >
-                    Edit
-                  </button>
+                    {weekend.title}
+                  </h3>
+                  {weekend.description && (
+                    <p className="text-sm text-indigo-500 mt-0.5">{weekend.description}</p>
+                  )}
+                  {weekend.notes && (
+                    <p className="text-sm text-gray-500 mt-1 line-clamp-2">{weekend.notes}</p>
+                  )}
+                  {weekend.extraInfo && (
+                    <p className="text-xs text-gray-400 mt-1 line-clamp-2 italic">{weekend.extraInfo}</p>
+                  )}
+                  <div className="flex items-center gap-4 mt-2">
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="text-xs text-violet-500 hover:text-violet-700 font-medium transition-colors"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <label className="text-xs text-gray-400">Hours</label>
+                  <input
+                    type="number"
+                    value={weekend.timeSpent === 0 ? "" : weekend.timeSpent}
+                    onChange={(e) => {
+                      const val = parseFloat(e.target.value);
+                      onUpdate(weekend.id, {
+                        timeSpent: isNaN(val) || val < 0 ? 0 : val,
+                      });
+                    }}
+                    min="0"
+                    step="0.5"
+                    placeholder="0"
+                    className="w-20 border border-gray-200 rounded-lg px-2 py-1.5 text-sm text-center focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300"
+                  />
+                  <span className="text-xs text-gray-400">logged</span>
                 </div>
               </div>
             )}
